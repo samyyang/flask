@@ -14,4 +14,4 @@ RUN cd /data && \
     unzip flask.zip -d flask_demo && \
     rm -rf flask.zip
 
-ENTRYPOINT ["sh", "/data/gde/start.sh"]
+ENTRYPOINT ["sh", "/data/flask_demo/start.sh"]
