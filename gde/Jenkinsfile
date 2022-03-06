@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Pull SourceCode') {
+            steps {
+                git branch: "main", credentialsId: 'f855e512-1185-48fc-a6aa-82e1e87addf6', url: 'https://github.com/samyyang/flask.git'
+            }
+        }
+
+        stage('Build') {
+            steps{
+                sh "rm -f ./gde/flask.zip && zip -r ./gde/flask.zip ./*"
+            }
+        }
+
+        stage('Docker Build') {
+            steps{
+                sh "cd ./gde && docker build -t flask_demo:1.0.0 ./ --no-cache"
+            }
+        }
+
+        // 没有k8s环境，本次直接部署
+        stage('Docker Build') {
+            steps{
+                sh "docker run -d -it flask_demo:1.0.0 /bin/bash"
+            }
+        }
+    }
+}
